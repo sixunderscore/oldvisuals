@@ -1,0 +1,16 @@
+{
+	"required": true,
+	"package": "net.sixunderscore.oldvisuals.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"armor.ArmorFeatureRendererMixin",
+		"armor.EquipmentRendererMixin",
+		"crosshair.InGameHudMixin",
+		"item.HeldItemRendererMixin",
+		"item.ModelBakerMixin"
+	],
+	"verbose": true,
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

@@ -1,0 +1,36 @@
+{
+	"schemaVersion": 1,
+	"id": "oldvisuals",
+	"version": "${version}",
+	"name": "OldVisuals",
+	"description": "Simple mod that adds back some visuals from 1.7 and earlier",
+	"authors": [
+		"6___"
+	],
+	"contact": {
+		"sources": "https://github.com/sixunderscore/oldvisualsmod"
+	},
+	"license": "GPL-3.0",
+	"icon": "assets/oldvisuals/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"main": [
+			"net.sixunderscore.oldvisuals.OldVisuals"
+		],
+		"modmenu": [
+			"net.sixunderscore.oldvisuals.ModMenuImpl"
+		]
+	},
+	"mixins": [
+		"oldvisuals.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.9",
+		"minecraft": "~1.21.4",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
