@@ -21,11 +21,11 @@ public class CustomUnbakedModel {
 
     private static ModelTransformation applyItemTransformations(UnbakedModel model) {
         Transformation thirdPersonLeftHand = UnbakedModel.getTransformation(model, ModelTransformationMode.THIRD_PERSON_LEFT_HAND);
-        thirdPersonLeftHand.rotation.add(6, -5,8);
-        thirdPersonLeftHand.translation.add(-0.05f,-0.01f,0.01f);
+        thirdPersonLeftHand.rotation.add(8, -6,9);
+        thirdPersonLeftHand.translation.add(-0.05f,-0.01f,0.015f);
         Transformation thirdPersonRightHand = UnbakedModel.getTransformation(model, ModelTransformationMode.THIRD_PERSON_RIGHT_HAND);
-        thirdPersonRightHand.rotation.add(6, -5,8);
-        thirdPersonRightHand.translation.add(-0.05f,-0.01f,0.01f);
+        thirdPersonRightHand.rotation.add(8, -6,9);
+        thirdPersonRightHand.translation.add(-0.05f,-0.01f,0.015f);
         Transformation firstPersonLeftHand = UnbakedModel.getTransformation(model, ModelTransformationMode.FIRST_PERSON_LEFT_HAND);
         Transformation firstPersonRightHand = UnbakedModel.getTransformation(model, ModelTransformationMode.FIRST_PERSON_RIGHT_HAND);
         Transformation head = UnbakedModel.getTransformation(model, ModelTransformationMode.HEAD);
