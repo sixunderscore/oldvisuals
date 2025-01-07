@@ -123,16 +123,14 @@ public class Config {
         }
     }
 
-    private static boolean shouldWriteNewLine() {
+    private static boolean shouldWriteNewLine() throws IOException {
         try (RandomAccessFile raf = new RandomAccessFile(CONFIG_FILE_PATH.toFile(), "r")) {
             if (raf.length() > 0) {
                 raf.seek(raf.length() - 1);
                 return raf.read() != '\n';
             }
-        } catch (IOException e) {
-            OldVisuals.LOGGER.error(e.getMessage());
+            return false;
         }
-        return false;
     }
 
     public static boolean enabledThirdPersonCrosshair() {
