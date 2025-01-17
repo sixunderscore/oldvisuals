@@ -53,15 +53,15 @@ public class Config {
         }
     }
 
-    private static void applyRuntimeSetting(String key, boolean newValue) {
+    private static void applyRuntimeSetting(String key, boolean value) {
         switch (key) {
-            case ConfigKeys.ENABLED_THIRD_PERSON_CROSSHAIR -> enabledThirdPersonCrosshair = newValue;
-            case ConfigKeys.ENABLED_RED_ARMOR -> enabledRedArmor = newValue;
-            case ConfigKeys.ENABLED_NO_COOLDOWN_ANIMATION -> enabledNoCooldownAnimation = newValue;
-            case ConfigKeys.ENABLED_OLD_THIRD_PERSON_TOOL -> enabledOldThirdPersonTool = newValue;
-            case ConfigKeys.ENABLED_OLD_THIRD_PERSON_ITEM -> enabledOldThirdPersonItem = newValue;
-            case ConfigKeys.ENABLED_OLD_FIRST_PERSON_ROD -> enabledOldFirstPersonRod = newValue;
-            case ConfigKeys.FLAT_ITEM_RENDER_MODE -> enabledFlatDroppedItems =  newValue;
+            case ConfigKeys.ENABLED_THIRD_PERSON_CROSSHAIR -> enabledThirdPersonCrosshair = value;
+            case ConfigKeys.ENABLED_RED_ARMOR -> enabledRedArmor = value;
+            case ConfigKeys.ENABLED_NO_COOLDOWN_ANIMATION -> enabledNoCooldownAnimation = value;
+            case ConfigKeys.ENABLED_OLD_THIRD_PERSON_TOOL -> enabledOldThirdPersonTool = value;
+            case ConfigKeys.ENABLED_OLD_THIRD_PERSON_ITEM -> enabledOldThirdPersonItem = value;
+            case ConfigKeys.ENABLED_OLD_FIRST_PERSON_ROD -> enabledOldFirstPersonRod = value;
+            case ConfigKeys.ENABLED_FLAT_DROPPED_ITEMS -> enabledFlatDroppedItems = value;
         }
     }
 

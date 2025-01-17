@@ -103,7 +103,7 @@ public class ModMenuConfigScreen extends Screen {
                         button -> {
                             Config.enabledFlatDroppedItems = !Config.enabledFlatDroppedItems;
 
-                            addOrRemoveSettingToMap(ConfigKeys.FLAT_ITEM_RENDER_MODE, Config.enabledFlatDroppedItems);
+                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_FLAT_DROPPED_ITEMS, Config.enabledFlatDroppedItems);
                             button.setMessage(Text.translatable("oldvisuals.config.button.flat_item", getFriendlyName(Config.enabledFlatDroppedItems)));
                         }
                 )
