@@ -18,7 +18,7 @@ public class InGameHudMixin {
             )
     )
     private Perspective redirectGetPerspective(GameOptions options) {
-        if (Config.enabledThirdPersonCrosshair()) {
+        if (Config.enabledThirdPersonCrosshair) {
             return Perspective.FIRST_PERSON;
         }
         return options.getPerspective();

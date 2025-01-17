@@ -25,7 +25,7 @@ public class HeldItemRendererMixin {
             )
     )
     private float redirectGetAttackCooldownProgress(ClientPlayerEntity clientPlayerEntity, float baseTime) {
-        if (Config.enabledNoCooldownAnimation())
+        if (Config.enabledNoCooldownAnimation)
             return 1.0F;
         return clientPlayerEntity.getAttackCooldownProgress(baseTime);
     }
@@ -43,7 +43,7 @@ public class HeldItemRendererMixin {
             )
     )
     private void redirectApplyEquipOffset(HeldItemRenderer heldItemRenderer, MatrixStack matrices, Arm arm, float equipProgress) {
-        if (Config.enabledNoCooldownAnimation()) {
+        if (Config.enabledNoCooldownAnimation) {
             if (swingProgress != 0.0)
                 this.applyEquipOffset(matrices, arm, 0.0F);
             else

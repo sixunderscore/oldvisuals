@@ -10,19 +10,17 @@ import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Config {
     private static final Path CONFIG_FILE_PATH = FabricLoader.getInstance().getConfigDir().resolve("oldvisuals.conf");
-    private static boolean enabledThirdPersonCrosshair;
-    private static boolean enabledRedArmor;
-    private static boolean enabledNoCooldownAnimation;
-    private static boolean enabledOldThirdPersonTool;
-    private static boolean enabledOldThirdPersonItem;
-    private static boolean enabledOldFirstPersonRod;
+    public static boolean enabledThirdPersonCrosshair;
+    public static boolean enabledRedArmor;
+    public static boolean enabledNoCooldownAnimation;
+    public static boolean enabledOldThirdPersonTool;
+    public static boolean enabledOldThirdPersonItem;
+    public static boolean enabledOldFirstPersonRod;
+    public static boolean enabledFlatDroppedItems;
 
     public static void load() {
         Set<String> loadedKeys = new HashSet<>();
@@ -55,7 +53,7 @@ public class Config {
         }
     }
 
-    public static void applyRuntimeSetting(String key, boolean newValue) {
+    private static void applyRuntimeSetting(String key, boolean newValue) {
         switch (key) {
             case ConfigKeys.ENABLED_THIRD_PERSON_CROSSHAIR -> enabledThirdPersonCrosshair = newValue;
             case ConfigKeys.ENABLED_RED_ARMOR -> enabledRedArmor = newValue;
@@ -63,10 +61,11 @@ public class Config {
             case ConfigKeys.ENABLED_OLD_THIRD_PERSON_TOOL -> enabledOldThirdPersonTool = newValue;
             case ConfigKeys.ENABLED_OLD_THIRD_PERSON_ITEM -> enabledOldThirdPersonItem = newValue;
             case ConfigKeys.ENABLED_OLD_FIRST_PERSON_ROD -> enabledOldFirstPersonRod = newValue;
+            case ConfigKeys.FLAT_ITEM_RENDER_MODE -> enabledFlatDroppedItems =  newValue;
         }
     }
 
-    public static void editConfigFile(Map<String, Boolean> changedSettings) {
+    public static void editConfigFile(Map<String, Object> changedSettings) {
         OldVisuals.LOGGER.info("Writing changes to config file");
 
         Thread.startVirtualThread(() -> {
@@ -84,7 +83,7 @@ public class Config {
         });
     }
 
-    private static void editSetting(List<String> fileLines, String key, boolean newValue) {
+    private static void editSetting(List<String> fileLines, String key, Object newValue) {
         int lineCount = fileLines.size();
 
         for (int i = 0; i < lineCount; ++i) {
@@ -131,29 +130,5 @@ public class Config {
             }
             return false;
         }
-    }
-
-    public static boolean enabledThirdPersonCrosshair() {
-        return enabledThirdPersonCrosshair;
-    }
-
-    public static boolean enabledRedArmor() {
-        return enabledRedArmor;
-    }
-
-    public static boolean enabledNoCooldownAnimation() {
-        return enabledNoCooldownAnimation;
-    }
-
-    public static boolean enabledOldThirdPersonTool() {
-        return enabledOldThirdPersonTool;
-    }
-
-    public static boolean enabledOldThirdPersonItem() {
-        return enabledOldThirdPersonItem;
-    }
-
-    public static boolean enabledOldFirstPersonRod() {
-        return enabledOldFirstPersonRod;
     }
 }

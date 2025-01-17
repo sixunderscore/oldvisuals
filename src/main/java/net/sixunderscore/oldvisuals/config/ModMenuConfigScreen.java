@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class ModMenuConfigScreen extends Screen {
     private final Screen parent;
-    private final Map<String, Boolean> changedSettings = new HashMap<>();
+    private final Map<String, Object> changedSettings = new HashMap<>();
     private final String[] RESOURCE_RELOAD_SETTINGS = {ConfigKeys.ENABLED_OLD_THIRD_PERSON_TOOL, ConfigKeys.ENABLED_OLD_THIRD_PERSON_ITEM, ConfigKeys.ENABLED_OLD_FIRST_PERSON_ROD};
 
     public ModMenuConfigScreen(Screen parent) {
@@ -21,80 +21,93 @@ public class ModMenuConfigScreen extends Screen {
     protected void init() {
         ButtonWidget crosshairButton = ButtonWidget
                 .builder(
-                        Text.translatable("oldvisuals.config.button.crosshair", Config.enabledThirdPersonCrosshair()),
+                        Text.translatable("oldvisuals.config.button.crosshair", getFriendlyName(Config.enabledThirdPersonCrosshair)),
                         button -> {
-                            Config.applyRuntimeSetting(ConfigKeys.ENABLED_THIRD_PERSON_CROSSHAIR, !Config.enabledThirdPersonCrosshair());
+                            Config.enabledThirdPersonCrosshair = !Config.enabledThirdPersonCrosshair;
 
-                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_THIRD_PERSON_CROSSHAIR, Config.enabledThirdPersonCrosshair());
-                            button.setMessage(Text.translatable("oldvisuals.config.button.crosshair", Config.enabledThirdPersonCrosshair()));
+                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_THIRD_PERSON_CROSSHAIR, Config.enabledThirdPersonCrosshair);
+                            button.setMessage(Text.translatable("oldvisuals.config.button.crosshair", getFriendlyName(Config.enabledThirdPersonCrosshair)));
                         }
                 )
-                .dimensions(this.width / 2 - 105, 10, 210, 20)
+                .dimensions(this.width / 2 - 105, 5, 210, 20)
                 .build();
 
         ButtonWidget redArmorButton = ButtonWidget
                 .builder(
-                        Text.translatable("oldvisuals.config.button.armor", Config.enabledRedArmor()),
+                        Text.translatable("oldvisuals.config.button.armor", getFriendlyName(Config.enabledRedArmor)),
                         button -> {
-                            Config.applyRuntimeSetting(ConfigKeys.ENABLED_RED_ARMOR, !Config.enabledRedArmor());
+                            Config.enabledRedArmor = !Config.enabledRedArmor;
 
-                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_RED_ARMOR, Config.enabledRedArmor());
-                            button.setMessage(Text.translatable("oldvisuals.config.button.armor", Config.enabledRedArmor()));
+                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_RED_ARMOR, Config.enabledRedArmor);
+                            button.setMessage(Text.translatable("oldvisuals.config.button.armor", getFriendlyName(Config.enabledRedArmor)));
                         }
                 )
-                .dimensions(this.width / 2 - 105, 40, 210, 20)
+                .dimensions(this.width / 2 - 105, 30, 210, 20)
                 .build();
 
         ButtonWidget noCooldownButton = ButtonWidget
                 .builder(
-                        Text.translatable("oldvisuals.config.button.cooldown", Config.enabledNoCooldownAnimation()),
+                        Text.translatable("oldvisuals.config.button.cooldown", getFriendlyName(Config.enabledNoCooldownAnimation)),
                         button -> {
-                            Config.applyRuntimeSetting(ConfigKeys.ENABLED_NO_COOLDOWN_ANIMATION, !Config.enabledNoCooldownAnimation());
+                            Config.enabledNoCooldownAnimation = !Config.enabledNoCooldownAnimation;
 
-                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_NO_COOLDOWN_ANIMATION, Config.enabledNoCooldownAnimation());
-                            button.setMessage(Text.translatable("oldvisuals.config.button.cooldown", Config.enabledNoCooldownAnimation()));
+                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_NO_COOLDOWN_ANIMATION, Config.enabledNoCooldownAnimation);
+                            button.setMessage(Text.translatable("oldvisuals.config.button.cooldown", getFriendlyName(Config.enabledNoCooldownAnimation)));
                         }
                 )
-                .dimensions(this.width / 2 - 105, 70, 210, 20)
+                .dimensions(this.width / 2 - 105, 55, 210, 20)
                 .build();
 
         ButtonWidget thirdPersonToolButton = ButtonWidget
                 .builder(
-                        Text.translatable("oldvisuals.config.button.tool", Config.enabledOldThirdPersonTool()),
+                        Text.translatable("oldvisuals.config.button.tool", getFriendlyName(Config.enabledOldThirdPersonTool)),
                         button -> {
-                            Config.applyRuntimeSetting(ConfigKeys.ENABLED_OLD_THIRD_PERSON_TOOL, !Config.enabledOldThirdPersonTool());
+                            Config.enabledOldThirdPersonTool = !Config.enabledOldThirdPersonTool;
 
-                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_OLD_THIRD_PERSON_TOOL, Config.enabledOldThirdPersonTool());
-                            button.setMessage(Text.translatable("oldvisuals.config.button.tool", Config.enabledOldThirdPersonTool()));
+                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_OLD_THIRD_PERSON_TOOL, Config.enabledOldThirdPersonTool);
+                            button.setMessage(Text.translatable("oldvisuals.config.button.tool", getFriendlyName(Config.enabledOldThirdPersonTool)));
                         }
                 )
-                .dimensions(this.width / 2 - 105, 100, 210, 20)
+                .dimensions(this.width / 2 - 105, 80, 210, 20)
                 .build();
 
         ButtonWidget thirdPersonItemButton = ButtonWidget
                 .builder(
-                        Text.translatable("oldvisuals.config.button.item", Config.enabledOldThirdPersonItem()),
+                        Text.translatable("oldvisuals.config.button.item", getFriendlyName(Config.enabledOldThirdPersonItem)),
                         button -> {
-                            Config.applyRuntimeSetting(ConfigKeys.ENABLED_OLD_THIRD_PERSON_ITEM, !Config.enabledOldThirdPersonItem());
+                            Config.enabledOldThirdPersonItem = !Config.enabledOldThirdPersonItem;
 
-                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_OLD_THIRD_PERSON_ITEM, Config.enabledOldThirdPersonItem());
-                            button.setMessage(Text.translatable("oldvisuals.config.button.item", Config.enabledOldThirdPersonItem()));
+                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_OLD_THIRD_PERSON_ITEM, Config.enabledOldThirdPersonItem);
+                            button.setMessage(Text.translatable("oldvisuals.config.button.item", getFriendlyName(Config.enabledOldThirdPersonItem)));
+                        }
+                )
+                .dimensions(this.width / 2 - 105, 105, 210, 20)
+                .build();
+
+        ButtonWidget firstPersonRodButton = ButtonWidget
+                .builder(
+                        Text.translatable("oldvisuals.config.button.rod", getFriendlyName(Config.enabledOldFirstPersonRod)),
+                        button -> {
+                            Config.enabledOldFirstPersonRod = !Config.enabledOldFirstPersonRod;
+
+                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_OLD_FIRST_PERSON_ROD, Config.enabledOldFirstPersonRod);
+                            button.setMessage(Text.translatable("oldvisuals.config.button.rod", getFriendlyName(Config.enabledOldFirstPersonRod)));
                         }
                 )
                 .dimensions(this.width / 2 - 105, 130, 210, 20)
                 .build();
 
-        ButtonWidget firstPersonRodButton = ButtonWidget
+        ButtonWidget flatItemModeButton = ButtonWidget
                 .builder(
-                        Text.translatable("oldvisuals.config.button.rod", Config.enabledOldFirstPersonRod()),
+                        Text.translatable("oldvisuals.config.button.flat_item", getFriendlyName(Config.enabledFlatDroppedItems)),
                         button -> {
-                            Config.applyRuntimeSetting(ConfigKeys.ENABLED_OLD_FIRST_PERSON_ROD, !Config.enabledOldFirstPersonRod());
+                            Config.enabledFlatDroppedItems = !Config.enabledFlatDroppedItems;
 
-                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_OLD_FIRST_PERSON_ROD, Config.enabledOldFirstPersonRod());
-                            button.setMessage(Text.translatable("oldvisuals.config.button.rod", Config.enabledOldFirstPersonRod()));
+                            addOrRemoveSettingToMap(ConfigKeys.FLAT_ITEM_RENDER_MODE, Config.enabledFlatDroppedItems);
+                            button.setMessage(Text.translatable("oldvisuals.config.button.flat_item", getFriendlyName(Config.enabledFlatDroppedItems)));
                         }
                 )
-                .dimensions(this.width / 2 - 105, 160, 210, 20)
+                .dimensions(this.width / 2 - 105, 155, 210, 20)
                 .build();
 
         ButtonWidget saveButton = ButtonWidget
@@ -121,6 +134,7 @@ public class ModMenuConfigScreen extends Screen {
         this.addDrawableChild(thirdPersonToolButton);
         this.addDrawableChild(thirdPersonItemButton);
         this.addDrawableChild(firstPersonRodButton);
+        this.addDrawableChild(flatItemModeButton);
         this.addDrawableChild(saveButton);
     }
 
@@ -130,6 +144,10 @@ public class ModMenuConfigScreen extends Screen {
             changedSettings.remove(key);
         else
             changedSettings.put(key, value);
+    }
+
+    private String getFriendlyName(boolean value) {
+        return value ? "On" : "Off";
     }
 
     private boolean shouldReloadResources() {

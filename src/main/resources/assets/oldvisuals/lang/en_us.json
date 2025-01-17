@@ -6,5 +6,6 @@
   "oldvisuals.config.button.tool": "Third person Sword/Tool position: %s",
   "oldvisuals.config.button.item": "Third person Item position: %s",
   "oldvisuals.config.button.rod": "First person Rod position: %s",
+  "oldvisuals.config.button.flat_item": "2D Dropped Items: %s",
   "oldvisuals.config.button.done": "Done"
 }

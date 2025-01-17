@@ -29,11 +29,11 @@ public class ModelBakerMixin {
             )
     )
     private static BakedModel onBakeModel(UnbakedModel unbakedModel, Baker baker, ModelBakeSettings settings) {
-        if (Config.enabledOldThirdPersonTool() && currentModelId.equals("item/diamond_sword")) // Applying transformations to all models inheriting from handheld.json, not just diamond_sword
+        if (Config.enabledOldThirdPersonTool && currentModelId.equals("item/diamond_sword")) // Applying transformations to all models inheriting from handheld.json, not just diamond_sword
             return CustomUnbakedModel.bake(unbakedModel, baker, settings, OldTransformationType.HANDHELD);
-        if (Config.enabledOldThirdPersonItem() && currentModelId.equals("item/apple")) // Applying transformations to all models inheriting from generated.json, not just apple
+        if (Config.enabledOldThirdPersonItem && currentModelId.equals("item/apple")) // Applying transformations to all models inheriting from generated.json, not just apple
             return CustomUnbakedModel.bake(unbakedModel, baker, settings, OldTransformationType.ITEM);
-        if (Config.enabledOldFirstPersonRod() && currentModelId.equals("item/fishing_rod"))
+        if (Config.enabledOldFirstPersonRod && currentModelId.equals("item/fishing_rod"))
             return CustomUnbakedModel.bake(unbakedModel, baker, settings, OldTransformationType.FISHING_ROD);
 
         return UnbakedModel.bake(unbakedModel, baker, settings);

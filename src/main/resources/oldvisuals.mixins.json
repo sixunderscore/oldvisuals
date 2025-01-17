@@ -7,7 +7,9 @@
 		"armor.EquipmentRendererMixin",
 		"crosshair.InGameHudMixin",
 		"item.HeldItemRendererMixin",
-		"item.ModelBakerMixin"
+		"item.ModelBakerMixin",
+		"item.ItemRendererMixin",
+		"item.ItemEntityRendererMixin"
 	],
 	"verbose": true,
 	"injectors": {
