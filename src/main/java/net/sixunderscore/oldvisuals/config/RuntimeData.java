@@ -21,7 +21,7 @@ public class RuntimeData {
             ConfigKeys.ENABLED_OLD_THIRD_PERSON_TOOL, value -> enabledOldThirdPersonTool = Boolean.parseBoolean(value),
             ConfigKeys.ENABLED_OLD_THIRD_PERSON_ITEM, value -> enabledOldThirdPersonItem = Boolean.parseBoolean(value),
             ConfigKeys.ENABLED_OLD_FIRST_PERSON_ROD, value -> enabledOldFirstPersonRod = Boolean.parseBoolean(value),
-            ConfigKeys.FLAT_DROPPED_ITEMS_RENDER_MODE, value -> flatDroppedItemRenderMode = FlatDroppedItemRenderMode.valueOf(value)
+            ConfigKeys.FLAT_DROPPED_ITEMS_RENDER_MODE, value -> flatDroppedItemRenderMode = FlatDroppedItemRenderMode.parseEnum(value)
     );
     private static final Map<String, Runnable> TOGGLE_ACTIONS = Map.of(
             ConfigKeys.ENABLED_THIRD_PERSON_CROSSHAIR, () -> enabledThirdPersonCrosshair = !enabledThirdPersonCrosshair,
