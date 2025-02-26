@@ -21,12 +21,12 @@ public class ModMenuConfigScreen extends Screen {
     protected void init() {
         ButtonWidget crosshairButton = ButtonWidget
                 .builder(
-                        Text.translatable("oldvisuals.config.button.crosshair", getFriendlyName(Config.enabledThirdPersonCrosshair)),
+                        Text.translatable("oldvisuals.config.button.crosshair", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledThirdPersonCrosshair())),
                         button -> {
-                            Config.enabledThirdPersonCrosshair = !Config.enabledThirdPersonCrosshair;
+                            RuntimeData.toggleSetting(ConfigKeys.ENABLED_THIRD_PERSON_CROSSHAIR);
 
-                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_THIRD_PERSON_CROSSHAIR, Config.enabledThirdPersonCrosshair);
-                            button.setMessage(Text.translatable("oldvisuals.config.button.crosshair", getFriendlyName(Config.enabledThirdPersonCrosshair)));
+                            changedSettings.put(ConfigKeys.ENABLED_THIRD_PERSON_CROSSHAIR, RuntimeData.enabledThirdPersonCrosshair());
+                            button.setMessage(Text.translatable("oldvisuals.config.button.crosshair", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledThirdPersonCrosshair())));
                         }
                 )
                 .dimensions(this.width / 2 - 105, 5, 210, 20)
@@ -34,12 +34,12 @@ public class ModMenuConfigScreen extends Screen {
 
         ButtonWidget redArmorButton = ButtonWidget
                 .builder(
-                        Text.translatable("oldvisuals.config.button.armor", getFriendlyName(Config.enabledRedArmor)),
+                        Text.translatable("oldvisuals.config.button.armor", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledRedArmor())),
                         button -> {
-                            Config.enabledRedArmor = !Config.enabledRedArmor;
+                            RuntimeData.toggleSetting(ConfigKeys.ENABLED_RED_ARMOR);
 
-                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_RED_ARMOR, Config.enabledRedArmor);
-                            button.setMessage(Text.translatable("oldvisuals.config.button.armor", getFriendlyName(Config.enabledRedArmor)));
+                            changedSettings.put(ConfigKeys.ENABLED_RED_ARMOR, RuntimeData.enabledRedArmor());
+                            button.setMessage(Text.translatable("oldvisuals.config.button.armor", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledRedArmor())));
                         }
                 )
                 .dimensions(this.width / 2 - 105, 30, 210, 20)
@@ -47,12 +47,12 @@ public class ModMenuConfigScreen extends Screen {
 
         ButtonWidget noCooldownButton = ButtonWidget
                 .builder(
-                        Text.translatable("oldvisuals.config.button.cooldown", getFriendlyName(Config.enabledNoCooldownAnimation)),
+                        Text.translatable("oldvisuals.config.button.cooldown", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledNoCooldownAnimation())),
                         button -> {
-                            Config.enabledNoCooldownAnimation = !Config.enabledNoCooldownAnimation;
+                            RuntimeData.toggleSetting(ConfigKeys.ENABLED_NO_COOLDOWN_ANIMATION);
 
-                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_NO_COOLDOWN_ANIMATION, Config.enabledNoCooldownAnimation);
-                            button.setMessage(Text.translatable("oldvisuals.config.button.cooldown", getFriendlyName(Config.enabledNoCooldownAnimation)));
+                            changedSettings.put(ConfigKeys.ENABLED_NO_COOLDOWN_ANIMATION, RuntimeData.enabledNoCooldownAnimation());
+                            button.setMessage(Text.translatable("oldvisuals.config.button.cooldown", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledNoCooldownAnimation())));
                         }
                 )
                 .dimensions(this.width / 2 - 105, 55, 210, 20)
@@ -60,12 +60,12 @@ public class ModMenuConfigScreen extends Screen {
 
         ButtonWidget thirdPersonToolButton = ButtonWidget
                 .builder(
-                        Text.translatable("oldvisuals.config.button.tool", getFriendlyName(Config.enabledOldThirdPersonTool)),
+                        Text.translatable("oldvisuals.config.button.tool", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledOldThirdPersonTool())),
                         button -> {
-                            Config.enabledOldThirdPersonTool = !Config.enabledOldThirdPersonTool;
+                            RuntimeData.toggleSetting(ConfigKeys.ENABLED_OLD_THIRD_PERSON_TOOL);
 
-                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_OLD_THIRD_PERSON_TOOL, Config.enabledOldThirdPersonTool);
-                            button.setMessage(Text.translatable("oldvisuals.config.button.tool", getFriendlyName(Config.enabledOldThirdPersonTool)));
+                            changedSettings.put(ConfigKeys.ENABLED_OLD_THIRD_PERSON_TOOL, RuntimeData.enabledOldThirdPersonTool());
+                            button.setMessage(Text.translatable("oldvisuals.config.button.tool", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledOldThirdPersonTool())));
                         }
                 )
                 .dimensions(this.width / 2 - 105, 80, 210, 20)
@@ -73,12 +73,12 @@ public class ModMenuConfigScreen extends Screen {
 
         ButtonWidget thirdPersonItemButton = ButtonWidget
                 .builder(
-                        Text.translatable("oldvisuals.config.button.item", getFriendlyName(Config.enabledOldThirdPersonItem)),
+                        Text.translatable("oldvisuals.config.button.item", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledOldThirdPersonItem())),
                         button -> {
-                            Config.enabledOldThirdPersonItem = !Config.enabledOldThirdPersonItem;
+                            RuntimeData.toggleSetting(ConfigKeys.ENABLED_OLD_THIRD_PERSON_ITEM);
 
-                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_OLD_THIRD_PERSON_ITEM, Config.enabledOldThirdPersonItem);
-                            button.setMessage(Text.translatable("oldvisuals.config.button.item", getFriendlyName(Config.enabledOldThirdPersonItem)));
+                            changedSettings.put(ConfigKeys.ENABLED_OLD_THIRD_PERSON_ITEM, RuntimeData.enabledOldThirdPersonItem());
+                            button.setMessage(Text.translatable("oldvisuals.config.button.item", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledOldThirdPersonItem())));
                         }
                 )
                 .dimensions(this.width / 2 - 105, 105, 210, 20)
@@ -86,12 +86,12 @@ public class ModMenuConfigScreen extends Screen {
 
         ButtonWidget firstPersonRodButton = ButtonWidget
                 .builder(
-                        Text.translatable("oldvisuals.config.button.rod", getFriendlyName(Config.enabledOldFirstPersonRod)),
+                        Text.translatable("oldvisuals.config.button.rod", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledOldFirstPersonRod())),
                         button -> {
-                            Config.enabledOldFirstPersonRod = !Config.enabledOldFirstPersonRod;
+                            RuntimeData.toggleSetting(ConfigKeys.ENABLED_OLD_FIRST_PERSON_ROD);
 
-                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_OLD_FIRST_PERSON_ROD, Config.enabledOldFirstPersonRod);
-                            button.setMessage(Text.translatable("oldvisuals.config.button.rod", getFriendlyName(Config.enabledOldFirstPersonRod)));
+                            changedSettings.put(ConfigKeys.ENABLED_OLD_FIRST_PERSON_ROD, RuntimeData.enabledOldFirstPersonRod());
+                            button.setMessage(Text.translatable("oldvisuals.config.button.rod", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledOldFirstPersonRod())));
                         }
                 )
                 .dimensions(this.width / 2 - 105, 130, 210, 20)
@@ -99,12 +99,12 @@ public class ModMenuConfigScreen extends Screen {
 
         ButtonWidget flatItemModeButton = ButtonWidget
                 .builder(
-                        Text.translatable("oldvisuals.config.button.flat_item", getFriendlyName(Config.enabledFlatDroppedItems)),
+                        Text.translatable("oldvisuals.config.button.flat_item", ConfigUtils.getFriendlyEnum(RuntimeData.flatDroppedItemRenderMode())),
                         button -> {
-                            Config.enabledFlatDroppedItems = !Config.enabledFlatDroppedItems;
+                            RuntimeData.toggleSetting(ConfigKeys.FLAT_DROPPED_ITEMS_RENDER_MODE);
 
-                            addOrRemoveSettingToMap(ConfigKeys.ENABLED_FLAT_DROPPED_ITEMS, Config.enabledFlatDroppedItems);
-                            button.setMessage(Text.translatable("oldvisuals.config.button.flat_item", getFriendlyName(Config.enabledFlatDroppedItems)));
+                            changedSettings.put(ConfigKeys.FLAT_DROPPED_ITEMS_RENDER_MODE, RuntimeData.flatDroppedItemRenderMode());
+                            button.setMessage(Text.translatable("oldvisuals.config.button.flat_item", ConfigUtils.getFriendlyEnum(RuntimeData.flatDroppedItemRenderMode())));
                         }
                 )
                 .dimensions(this.width / 2 - 105, 155, 210, 20)
@@ -136,18 +136,6 @@ public class ModMenuConfigScreen extends Screen {
         this.addDrawableChild(firstPersonRodButton);
         this.addDrawableChild(flatItemModeButton);
         this.addDrawableChild(saveButton);
-    }
-
-    // Prevent unnecessary writes to config file
-    private void addOrRemoveSettingToMap(String key, boolean value) {
-        if (changedSettings.containsKey(key))
-            changedSettings.remove(key);
-        else
-            changedSettings.put(key, value);
-    }
-
-    private String getFriendlyName(boolean value) {
-        return value ? "On" : "Off";
     }
 
     private boolean shouldReloadResources() {

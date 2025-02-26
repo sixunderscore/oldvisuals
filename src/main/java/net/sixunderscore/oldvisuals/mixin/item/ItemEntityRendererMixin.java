@@ -6,9 +6,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.ItemEntityRenderer;
 import net.minecraft.client.render.entity.state.ItemEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.util.math.RotationAxis;
-import net.sixunderscore.oldvisuals.config.Config;
+import net.sixunderscore.oldvisuals.config.RuntimeData;
 import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -41,13 +39,20 @@ public class ItemEntityRendererMixin {
             )
     )
     private void redirectMatrixMultiply(MatrixStack matrixStack, Quaternionf rotation) {
-        if (Config.enabledFlatDroppedItems) {
-            if (!renderState.itemRenderState.hasDepth())
-                matrixStack.multiply(this.dispatcher.getRotation());
-            else
-                matrixStack.multiply(RotationAxis.POSITIVE_Y.rotation(ItemEntity.getRotation(renderState.age, renderState.uniqueOffset)));
+        if (!renderState.itemRenderState.hasDepth()) {
+            switch (RuntimeData.flatDroppedItemRenderMode()) {
+                case FULL_ROTATION -> matrixStack.multiply(this.dispatcher.getRotation());
+                case Y_AXIS_ONLY_ROTATION -> {
+                    Quaternionf playerRotation = new Quaternionf(this.dispatcher.getRotation());
+                    playerRotation.x = 0;
+                    playerRotation.z = 0;
+                    matrixStack.multiply(playerRotation);
+                }
+                case OFF -> matrixStack.multiply(rotation);
+            }
         }
-        else
-            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotation(ItemEntity.getRotation(renderState.age, renderState.uniqueOffset)));
+        else {
+            matrixStack.multiply(rotation);
+        }
     }
 }

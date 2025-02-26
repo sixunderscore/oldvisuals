@@ -4,7 +4,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Arm;
-import net.sixunderscore.oldvisuals.config.Config;
+import net.sixunderscore.oldvisuals.config.RuntimeData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -25,7 +25,7 @@ public class HeldItemRendererMixin {
             )
     )
     private float redirectGetAttackCooldownProgress(ClientPlayerEntity clientPlayerEntity, float baseTime) {
-        if (Config.enabledNoCooldownAnimation)
+        if (RuntimeData.enabledNoCooldownAnimation())
             return 1.0F;
         return clientPlayerEntity.getAttackCooldownProgress(baseTime);
     }
@@ -43,7 +43,7 @@ public class HeldItemRendererMixin {
             )
     )
     private void redirectApplyEquipOffset(HeldItemRenderer heldItemRenderer, MatrixStack matrices, Arm arm, float equipProgress) {
-        if (Config.enabledNoCooldownAnimation) {
+        if (RuntimeData.enabledNoCooldownAnimation()) {
             if (swingProgress != 0.0)
                 this.applyEquipOffset(matrices, arm, 0.0F);
             else

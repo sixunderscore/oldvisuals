@@ -3,7 +3,7 @@ package net.sixunderscore.oldvisuals.mixin.crosshair;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.Perspective;
-import net.sixunderscore.oldvisuals.config.Config;
+import net.sixunderscore.oldvisuals.config.RuntimeData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -18,7 +18,7 @@ public class InGameHudMixin {
             )
     )
     private Perspective redirectGetPerspective(GameOptions options) {
-        if (Config.enabledThirdPersonCrosshair) {
+        if (RuntimeData.enabledThirdPersonCrosshair()) {
             return Perspective.FIRST_PERSON;
         }
         return options.getPerspective();

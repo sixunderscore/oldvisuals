@@ -5,7 +5,7 @@ import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.render.model.json.Transformation;
 import net.minecraft.item.ModelTransformationMode;
 
-public class CustomUnbakedModel {
+public class CustomModelBaker {
     public static BakedModel bake(UnbakedModel model, Baker baker, ModelBakeSettings settings, OldTransformationType type) {
         ModelTextures modelTextures = UnbakedModel.buildTextures(model, baker.getModelNameSupplier());
         boolean ambientOcclusion = UnbakedModel.getAmbientOcclusion(model);

@@ -5,7 +5,7 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.equipment.EquipmentRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.sixunderscore.oldvisuals.config.Config;
+import net.sixunderscore.oldvisuals.config.RuntimeData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,7 +24,7 @@ public class EquipmentRendererMixin implements EntityHurtStateAccessor {
             )
     )
     private static RenderLayer redirectGetRenderLayer(Identifier identifier) {
-        if (Config.enabledRedArmor)
+        if (RuntimeData.enabledRedArmor())
             return RenderLayer.getEntityTranslucent(identifier);
         else
             return RenderLayer.getArmorCutoutNoCull(identifier);
@@ -38,7 +38,7 @@ public class EquipmentRendererMixin implements EntityHurtStateAccessor {
             )
     )
     private void redirectRender(Model model, MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, int color) {
-        if (Config.enabledRedArmor)
+        if (RuntimeData.enabledRedArmor())
             model.render(matrices, vertexConsumer, light, OverlayTexture.packUv(0, OverlayTexture.getV(entityHurt)), color);
         else
             model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, color);
@@ -52,7 +52,7 @@ public class EquipmentRendererMixin implements EntityHurtStateAccessor {
             )
     )
     private static RenderLayer redirectGetRenderLayerTrim(boolean decal) {
-        if (Config.enabledRedArmor)
+        if (RuntimeData.enabledRedArmor())
             return RenderLayer.getEntityTranslucent(TexturedRenderLayers.ARMOR_TRIMS_ATLAS_TEXTURE);
         else
             return TexturedRenderLayers.getArmorTrims(decal);
@@ -66,7 +66,7 @@ public class EquipmentRendererMixin implements EntityHurtStateAccessor {
             )
     )
     private void redirectRenderTrim(Model model, MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay) {
-        if (Config.enabledRedArmor)
+        if (RuntimeData.enabledRedArmor())
             model.render(matrices, vertexConsumer, light, OverlayTexture.packUv(0, OverlayTexture.getV(entityHurt)));
         else
             model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);

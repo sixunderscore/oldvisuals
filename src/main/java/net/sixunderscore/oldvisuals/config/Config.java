@@ -14,19 +14,12 @@ import java.util.*;
 
 public class Config {
     private static final Path CONFIG_FILE_PATH = FabricLoader.getInstance().getConfigDir().resolve("oldvisuals.conf");
-    public static boolean enabledThirdPersonCrosshair;
-    public static boolean enabledRedArmor;
-    public static boolean enabledNoCooldownAnimation;
-    public static boolean enabledOldThirdPersonTool;
-    public static boolean enabledOldThirdPersonItem;
-    public static boolean enabledOldFirstPersonRod;
-    public static boolean enabledFlatDroppedItems;
 
     public static void load() {
         Set<String> loadedKeys = new HashSet<>();
 
         try {
-            if (!Files.exists(CONFIG_FILE_PATH)) {
+            if (Files.notExists(CONFIG_FILE_PATH)) {
                 OldVisuals.LOGGER.info("Creating and initializing config file");
                 Files.createFile(CONFIG_FILE_PATH);
                 initializeNewConfigFile();
@@ -42,7 +35,7 @@ public class Config {
 
                         loadedKeys.add(keyValue[0]);
 
-                        applyRuntimeSetting(keyValue[0], Boolean.parseBoolean(keyValue[1]));
+                        RuntimeData.applySetting(keyValue[0], keyValue[1]);
                     }
                 }
             }
@@ -50,18 +43,6 @@ public class Config {
             checkForMissingSettings(loadedKeys);
         } catch (IOException e) {
             OldVisuals.LOGGER.error(e.getMessage());
-        }
-    }
-
-    private static void applyRuntimeSetting(String key, boolean value) {
-        switch (key) {
-            case ConfigKeys.ENABLED_THIRD_PERSON_CROSSHAIR -> enabledThirdPersonCrosshair = value;
-            case ConfigKeys.ENABLED_RED_ARMOR -> enabledRedArmor = value;
-            case ConfigKeys.ENABLED_NO_COOLDOWN_ANIMATION -> enabledNoCooldownAnimation = value;
-            case ConfigKeys.ENABLED_OLD_THIRD_PERSON_TOOL -> enabledOldThirdPersonTool = value;
-            case ConfigKeys.ENABLED_OLD_THIRD_PERSON_ITEM -> enabledOldThirdPersonItem = value;
-            case ConfigKeys.ENABLED_OLD_FIRST_PERSON_ROD -> enabledOldFirstPersonRod = value;
-            case ConfigKeys.ENABLED_FLAT_DROPPED_ITEMS -> enabledFlatDroppedItems = value;
         }
     }
 
@@ -98,8 +79,8 @@ public class Config {
 
     private static void initializeNewConfigFile() throws IOException {
         try (BufferedWriter writer = Files.newBufferedWriter(CONFIG_FILE_PATH)) {
-            for (String key : ConfigKeys.ALL) {
-                writer.write(key + "=true");
+            for (String key : ConfigKeys.getAllKeys()) {
+                writer.write(key + "=" + ConfigKeys.getDefaultValue(key));
                 writer.newLine();
             }
         }
@@ -110,13 +91,14 @@ public class Config {
             if (shouldWriteNewLine())
                 writer.newLine();
 
-            for (String key : ConfigKeys.ALL) {
+            for (String key : ConfigKeys.getAllKeys()) {
                 if (!loadedKeys.contains(key)) {
                     OldVisuals.LOGGER.info("Writing missing key: {} to config file", key);
+                    Object defaultValue = ConfigKeys.getDefaultValue(key);
 
-                    writer.write(key + "=true");
+                    writer.write(key + "=" + defaultValue);
                     writer.newLine();
-                    applyRuntimeSetting(key, true);
+                    RuntimeData.applySetting(key, defaultValue);
                 }
             }
         }
