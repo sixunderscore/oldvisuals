@@ -19,9 +19,8 @@ public class Config {
 
         try {
             if (Files.notExists(CONFIG_FILE_PATH)) {
-                OldVisuals.LOGGER.info("Creating and initializing new config file");
-                Files.createFile(CONFIG_FILE_PATH);
-                initializeNewConfigFile();
+                OldVisuals.LOGGER.info("Creating new default config file");
+                newConfigFile();
             }
 
             List<String> lines = Files.readAllLines(CONFIG_FILE_PATH);
@@ -40,7 +39,9 @@ public class Config {
         }
     }
 
-    private static void initializeNewConfigFile() throws IOException {
+    private static void newConfigFile() throws IOException {
+        Files.createFile(CONFIG_FILE_PATH);
+
         try (BufferedWriter writer = Files.newBufferedWriter(CONFIG_FILE_PATH)) {
             for (String key : ConfigKeys.DEFAULT_VALUES.keySet()) {
                 writer.write(key + "=" + ConfigKeys.DEFAULT_VALUES.get(key));
@@ -51,17 +52,18 @@ public class Config {
 
     private static void checkForMissingSettings(Set<String> loadedKeys) throws IOException {
         try (BufferedWriter writer = Files.newBufferedWriter(CONFIG_FILE_PATH, StandardOpenOption.APPEND)) {
-            if (shouldWriteNewLine())
+            if (shouldWriteNewLine()) {
                 writer.newLine();
+            }
 
             for (String key : ConfigKeys.DEFAULT_VALUES.keySet()) {
                 if (!loadedKeys.contains(key)) {
                     OldVisuals.LOGGER.info("Writing missing key: {} to config file", key);
-                    Object defaultValue = ConfigKeys.DEFAULT_VALUES.get(key);
+                    String defaultValue = ConfigKeys.DEFAULT_VALUES.get(key);
 
+                    RuntimeConfig.applySetting(key, defaultValue);
                     writer.write(key + "=" + defaultValue);
                     writer.newLine();
-                    RuntimeConfig.applySetting(key, defaultValue);
                 }
             }
         }
