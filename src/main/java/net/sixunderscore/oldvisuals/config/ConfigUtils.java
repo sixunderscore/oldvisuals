@@ -29,7 +29,6 @@ public class ConfigUtils {
         T[] enumConstants = enumInstance.getDeclaringClass().getEnumConstants();
         int currentIndex = enumInstance.ordinal();
 
-        // Get next index (loop back to 0 if last enum constant)
         int nextIndex = (currentIndex + 1) % enumConstants.length;
 
         return enumConstants[nextIndex];

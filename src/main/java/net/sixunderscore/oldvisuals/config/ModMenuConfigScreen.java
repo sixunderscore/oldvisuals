@@ -1,154 +1,86 @@
 package net.sixunderscore.oldvisuals.config;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ModMenuConfigScreen extends Screen {
-    private final Screen parent;
-    private final Map<String, Object> changedSettings = new HashMap<>();
-    private final String[] RESOURCE_RELOAD_SETTINGS = {ConfigKeys.ENABLED_OLD_THIRD_PERSON_TOOL, ConfigKeys.ENABLED_OLD_THIRD_PERSON_ITEM, ConfigKeys.ENABLED_OLD_FIRST_PERSON_ROD};
+    private final Map<String, Object> changedSettings;
 
     public ModMenuConfigScreen(Screen parent) {
-        super(Text.translatable("oldvisuals.config.screen.title"));
-        this.parent = parent;
+        super(Component.literal("OldVisuals"));
+        this.changedSettings = new HashMap<>(ConfigKeys.DEFAULT_VALUES.size());
     }
 
     @Override
     protected void init() {
-        ButtonWidget crosshairButton = ButtonWidget
-                .builder(
-                        Text.translatable("oldvisuals.config.button.crosshair", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledThirdPersonCrosshair())),
-                        button -> {
-                            RuntimeData.toggleSetting(ConfigKeys.ENABLED_THIRD_PERSON_CROSSHAIR);
+        Button crosshairButton = Button.builder(
+                Component.literal("Third person crosshair: " + ConfigUtils.getFriendlyBoolean(RuntimeConfig.enabledThirdPersonCrosshair)), button -> {
+                    RuntimeConfig.toggleSetting(ConfigKeys.ENABLED_THIRD_PERSON_CROSSHAIR);
 
-                            changedSettings.put(ConfigKeys.ENABLED_THIRD_PERSON_CROSSHAIR, RuntimeData.enabledThirdPersonCrosshair());
-                            button.setMessage(Text.translatable("oldvisuals.config.button.crosshair", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledThirdPersonCrosshair())));
-                        }
-                )
-                .dimensions(this.width / 2 - 105, 5, 210, 20)
+                    changedSettings.put(ConfigKeys.ENABLED_THIRD_PERSON_CROSSHAIR, RuntimeConfig.enabledThirdPersonCrosshair);
+                    button.setMessage(Component.literal("Third person crosshair: " + ConfigUtils.getFriendlyBoolean(RuntimeConfig.enabledThirdPersonCrosshair)));
+                })
+                .bounds(this.width / 2 - 105, 5, 210, 20)
                 .build();
 
-        ButtonWidget redArmorButton = ButtonWidget
-                .builder(
-                        Text.translatable("oldvisuals.config.button.armor", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledRedArmor())),
-                        button -> {
-                            RuntimeData.toggleSetting(ConfigKeys.ENABLED_RED_ARMOR);
+        Button redArmorButton = Button.builder(
+                Component.literal("Red armor: " + ConfigUtils.getFriendlyBoolean(RuntimeConfig.enabledRedArmor)), button -> {
+                    RuntimeConfig.toggleSetting(ConfigKeys.ENABLED_RED_ARMOR);
 
-                            changedSettings.put(ConfigKeys.ENABLED_RED_ARMOR, RuntimeData.enabledRedArmor());
-                            button.setMessage(Text.translatable("oldvisuals.config.button.armor", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledRedArmor())));
-                        }
-                )
-                .dimensions(this.width / 2 - 105, 30, 210, 20)
+                    changedSettings.put(ConfigKeys.ENABLED_RED_ARMOR, RuntimeConfig.enabledRedArmor);
+                    button.setMessage(Component.literal("Red armor: " + ConfigUtils.getFriendlyBoolean(RuntimeConfig.enabledRedArmor)));
+                })
+                .bounds(this.width / 2 - 105, 30, 210, 20)
                 .build();
 
-        ButtonWidget noCooldownButton = ButtonWidget
-                .builder(
-                        Text.translatable("oldvisuals.config.button.cooldown", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledNoCooldownAnimation())),
-                        button -> {
-                            RuntimeData.toggleSetting(ConfigKeys.ENABLED_NO_COOLDOWN_ANIMATION);
+        Button cooldownButton = Button.builder(
+                Component.literal("No cooldown animation: " + ConfigUtils.getFriendlyBoolean(RuntimeConfig.enabledNoCooldownAnimation)), button -> {
+                    RuntimeConfig.toggleSetting(ConfigKeys.ENABLED_NO_COOLDOWN_ANIMATION);
 
-                            changedSettings.put(ConfigKeys.ENABLED_NO_COOLDOWN_ANIMATION, RuntimeData.enabledNoCooldownAnimation());
-                            button.setMessage(Text.translatable("oldvisuals.config.button.cooldown", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledNoCooldownAnimation())));
-                        }
-                )
-                .dimensions(this.width / 2 - 105, 55, 210, 20)
+                    changedSettings.put(ConfigKeys.ENABLED_NO_COOLDOWN_ANIMATION, RuntimeConfig.enabledNoCooldownAnimation);
+                    button.setMessage(Component.literal("No cooldown animation: " + ConfigUtils.getFriendlyBoolean(RuntimeConfig.enabledNoCooldownAnimation)));
+                })
+                .bounds(this.width / 2 - 105, 55, 210, 20)
                 .build();
 
-        ButtonWidget thirdPersonToolButton = ButtonWidget
-                .builder(
-                        Text.translatable("oldvisuals.config.button.tool", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledOldThirdPersonTool())),
-                        button -> {
-                            RuntimeData.toggleSetting(ConfigKeys.ENABLED_OLD_THIRD_PERSON_TOOL);
+        Button flatItemModeButton = Button.builder(
+                Component.literal("2D Dropped Items: " + ConfigUtils.getFriendlyEnum(RuntimeConfig.flatDroppedItemRenderMode)), button -> {
+                    RuntimeConfig.toggleSetting(ConfigKeys.FLAT_DROPPED_ITEMS_RENDER_MODE);
 
-                            changedSettings.put(ConfigKeys.ENABLED_OLD_THIRD_PERSON_TOOL, RuntimeData.enabledOldThirdPersonTool());
-                            button.setMessage(Text.translatable("oldvisuals.config.button.tool", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledOldThirdPersonTool())));
-                        }
-                )
-                .dimensions(this.width / 2 - 105, 80, 210, 20)
+                    changedSettings.put(ConfigKeys.FLAT_DROPPED_ITEMS_RENDER_MODE, RuntimeConfig.flatDroppedItemRenderMode);
+                    button.setMessage(Component.literal("2D Dropped Items: " + ConfigUtils.getFriendlyEnum(RuntimeConfig.flatDroppedItemRenderMode)));
+                })
+                .bounds(this.width / 2 - 105, 80, 210, 20)
                 .build();
 
-        ButtonWidget thirdPersonItemButton = ButtonWidget
-                .builder(
-                        Text.translatable("oldvisuals.config.button.item", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledOldThirdPersonItem())),
-                        button -> {
-                            RuntimeData.toggleSetting(ConfigKeys.ENABLED_OLD_THIRD_PERSON_ITEM);
-
-                            changedSettings.put(ConfigKeys.ENABLED_OLD_THIRD_PERSON_ITEM, RuntimeData.enabledOldThirdPersonItem());
-                            button.setMessage(Text.translatable("oldvisuals.config.button.item", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledOldThirdPersonItem())));
-                        }
-                )
-                .dimensions(this.width / 2 - 105, 105, 210, 20)
+        Button saveAndExitButton = Button.builder(Component.literal("Done"), _ -> this.onClose())
+                .bounds(this.width / 2 - 50, this.height - 30, 100, 20)
                 .build();
 
-        ButtonWidget firstPersonRodButton = ButtonWidget
-                .builder(
-                        Text.translatable("oldvisuals.config.button.rod", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledOldFirstPersonRod())),
-                        button -> {
-                            RuntimeData.toggleSetting(ConfigKeys.ENABLED_OLD_FIRST_PERSON_ROD);
+        this.addRenderableWidget(crosshairButton);
+        this.addRenderableWidget(redArmorButton);
+        this.addRenderableWidget(cooldownButton);
+        this.addRenderableWidget(flatItemModeButton);
+        this.addRenderableWidget(saveAndExitButton);
 
-                            changedSettings.put(ConfigKeys.ENABLED_OLD_FIRST_PERSON_ROD, RuntimeData.enabledOldFirstPersonRod());
-                            button.setMessage(Text.translatable("oldvisuals.config.button.rod", ConfigUtils.getFriendlyBoolean(RuntimeData.enabledOldFirstPersonRod())));
-                        }
-                )
-                .dimensions(this.width / 2 - 105, 130, 210, 20)
-                .build();
-
-        ButtonWidget flatItemModeButton = ButtonWidget
-                .builder(
-                        Text.translatable("oldvisuals.config.button.flat_item", ConfigUtils.getFriendlyEnum(RuntimeData.flatDroppedItemRenderMode())),
-                        button -> {
-                            RuntimeData.toggleSetting(ConfigKeys.FLAT_DROPPED_ITEMS_RENDER_MODE);
-
-                            changedSettings.put(ConfigKeys.FLAT_DROPPED_ITEMS_RENDER_MODE, RuntimeData.flatDroppedItemRenderMode());
-                            button.setMessage(Text.translatable("oldvisuals.config.button.flat_item", ConfigUtils.getFriendlyEnum(RuntimeData.flatDroppedItemRenderMode())));
-                        }
-                )
-                .dimensions(this.width / 2 - 105, 155, 210, 20)
-                .build();
-
-        ButtonWidget saveButton = ButtonWidget
-                .builder(
-                        Text.translatable("oldvisuals.config.button.done"),
-                        button -> {
-                            if (!changedSettings.isEmpty())
-                                Config.editConfigFile(changedSettings);
-
-                            if (this.client != null) {
-                                if (shouldReloadResources())
-                                    this.client.reloadResources();
-
-                                this.client.setScreen(parent);
-                            }
-                        }
-                )
-                .dimensions(this.width / 2 - 50, this.height - 30, 100, 20)
-                .build();
-
-        this.addDrawableChild(crosshairButton);
-        this.addDrawableChild(redArmorButton);
-        this.addDrawableChild(noCooldownButton);
-        this.addDrawableChild(thirdPersonToolButton);
-        this.addDrawableChild(thirdPersonItemButton);
-        this.addDrawableChild(firstPersonRodButton);
-        this.addDrawableChild(flatItemModeButton);
-        this.addDrawableChild(saveButton);
-    }
-
-    private boolean shouldReloadResources() {
-        for (String resourceReloadSetting : RESOURCE_RELOAD_SETTINGS) {
-            if (changedSettings.containsKey(resourceReloadSetting))
-                return true;
-        }
-
-        return false;
+        super.init();
     }
 
     @Override
     public boolean shouldCloseOnEsc() {
         return false;
+    }
+
+    @Override
+    public void onClose() {
+        if (!this.changedSettings.isEmpty()) {
+            Config.editConfigFile(this.changedSettings);
+        }
+
+        super.onClose();
     }
 }

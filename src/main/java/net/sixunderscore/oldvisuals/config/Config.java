@@ -3,7 +3,6 @@ package net.sixunderscore.oldvisuals.config;
 import net.fabricmc.loader.api.FabricLoader;
 import net.sixunderscore.oldvisuals.OldVisuals;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -16,71 +15,35 @@ public class Config {
     private static final Path CONFIG_FILE_PATH = FabricLoader.getInstance().getConfigDir().resolve("oldvisuals.conf");
 
     public static void load() {
-        Set<String> loadedKeys = new HashSet<>();
+        Set<String> loadedKeys = new HashSet<>(ConfigKeys.DEFAULT_VALUES.size());
 
         try {
             if (Files.notExists(CONFIG_FILE_PATH)) {
-                OldVisuals.LOGGER.info("Creating and initializing config file");
+                OldVisuals.LOGGER.info("Creating and initializing new config file");
                 Files.createFile(CONFIG_FILE_PATH);
                 initializeNewConfigFile();
             }
 
-            try (BufferedReader reader = Files.newBufferedReader(CONFIG_FILE_PATH)) {
-                OldVisuals.LOGGER.info("Loading config values");
-                String line;
+            List<String> lines = Files.readAllLines(CONFIG_FILE_PATH);
 
-                while ((line = reader.readLine()) != null) {
-                    if (line.contains("=")) {
-                        String[] keyValue = line.split("=", 2);
-
-                        loadedKeys.add(keyValue[0]);
-
-                        RuntimeData.applySetting(keyValue[0], keyValue[1]);
-                    }
+            for (String line : lines) {
+                if (line.contains("=")) {
+                    String[] keyValue = line.split("=", 2);
+                    loadedKeys.add(keyValue[0]);
+                    RuntimeConfig.applySetting(keyValue[0], keyValue[1]);
                 }
             }
 
             checkForMissingSettings(loadedKeys);
         } catch (IOException e) {
-            OldVisuals.LOGGER.error(e.getMessage());
-        }
-    }
-
-    public static void editConfigFile(Map<String, Object> changedSettings) {
-        OldVisuals.LOGGER.info("Writing changes to config file");
-
-        Thread.startVirtualThread(() -> {
-            try {
-                List<String> fileLines = Files.readAllLines(CONFIG_FILE_PATH);
-
-                for (String key : changedSettings.keySet()) {
-                    editSetting(fileLines, key, changedSettings.get(key));
-                }
-
-                Files.write(CONFIG_FILE_PATH, fileLines);
-            } catch (IOException e) {
-                OldVisuals.LOGGER.error(e.getMessage());
-            }
-        });
-    }
-
-    private static void editSetting(List<String> fileLines, String key, Object newValue) {
-        int lineCount = fileLines.size();
-
-        for (int i = 0; i < lineCount; ++i) {
-            String line = fileLines.get(i);
-
-            if (line.startsWith(key + "=")) {
-                fileLines.set(i, key + "=" + newValue);
-                break;
-            }
+            OldVisuals.LOGGER.error(e.toString());
         }
     }
 
     private static void initializeNewConfigFile() throws IOException {
         try (BufferedWriter writer = Files.newBufferedWriter(CONFIG_FILE_PATH)) {
-            for (String key : ConfigKeys.getAllKeys()) {
-                writer.write(key + "=" + ConfigKeys.getDefaultValue(key));
+            for (String key : ConfigKeys.DEFAULT_VALUES.keySet()) {
+                writer.write(key + "=" + ConfigKeys.DEFAULT_VALUES.get(key));
                 writer.newLine();
             }
         }
@@ -91,17 +54,44 @@ public class Config {
             if (shouldWriteNewLine())
                 writer.newLine();
 
-            for (String key : ConfigKeys.getAllKeys()) {
+            for (String key : ConfigKeys.DEFAULT_VALUES.keySet()) {
                 if (!loadedKeys.contains(key)) {
                     OldVisuals.LOGGER.info("Writing missing key: {} to config file", key);
-                    Object defaultValue = ConfigKeys.getDefaultValue(key);
+                    Object defaultValue = ConfigKeys.DEFAULT_VALUES.get(key);
 
                     writer.write(key + "=" + defaultValue);
                     writer.newLine();
-                    RuntimeData.applySetting(key, defaultValue);
+                    RuntimeConfig.applySetting(key, defaultValue);
                 }
             }
         }
+    }
+
+    public static void editConfigFile(Map<String, Object> changedSettings) {
+        OldVisuals.LOGGER.info("Writing changes to config file");
+
+        Thread.startVirtualThread(() -> {
+            try {
+                List<String> lines = Files.readAllLines(CONFIG_FILE_PATH);
+
+                for (int i = 0; i < lines.size(); ++i) {
+                    String line = lines.get(i);
+
+                    if (line.contains("=")) {
+                        String[] parts = line.split("=", 2);
+                        String key = parts[0];
+
+                        if (changedSettings.containsKey(key)) {
+                            lines.set(i, key + "=" + changedSettings.get(key));
+                        }
+                    }
+                }
+
+                Files.write(CONFIG_FILE_PATH, lines);
+            } catch (IOException e) {
+                OldVisuals.LOGGER.error(e.toString());
+            }
+        });
     }
 
     private static boolean shouldWriteNewLine() throws IOException {
@@ -110,6 +100,7 @@ public class Config {
                 raf.seek(raf.length() - 1);
                 return raf.read() != '\n';
             }
+
             return false;
         }
     }
