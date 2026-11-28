@@ -9,10 +9,12 @@ import java.util.Map;
 
 public class ModMenuConfigScreen extends Screen {
     private final Map<String, Object> changedSettings;
+    private final Screen parent;
 
     public ModMenuConfigScreen(Screen parent) {
         super(Component.literal("OldVisuals"));
         this.changedSettings = new HashMap<>(ConfigKeys.DEFAULT_VALUES.size());
+        this.parent = parent;
     }
 
     @Override
@@ -57,7 +59,14 @@ public class ModMenuConfigScreen extends Screen {
                 .bounds(this.width / 2 - 105, 80, 210, 20)
                 .build();
 
-        Button saveAndExitButton = Button.builder(Component.literal("Done"), _ -> this.onClose())
+        Button saveAndExitButton = Button.builder(
+                Component.literal("Done"), _ -> {
+                    if (!this.changedSettings.isEmpty()) {
+                        Config.editConfigFile(this.changedSettings);
+                    }
+
+                    this.minecraft.gui.setScreen(this.parent);
+                })
                 .bounds(this.width / 2 - 50, this.height - 30, 100, 20)
                 .build();
 
@@ -73,14 +82,5 @@ public class ModMenuConfigScreen extends Screen {
     @Override
     public boolean shouldCloseOnEsc() {
         return false;
-    }
-
-    @Override
-    public void onClose() {
-        if (!this.changedSettings.isEmpty()) {
-            Config.editConfigFile(this.changedSettings);
-        }
-
-        super.onClose();
     }
 }
