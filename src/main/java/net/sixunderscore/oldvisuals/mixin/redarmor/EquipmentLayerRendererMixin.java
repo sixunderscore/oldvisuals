@@ -2,6 +2,7 @@ package net.sixunderscore.oldvisuals.mixin.redarmor;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.OrderedSubmitNodeCollector;
@@ -16,6 +17,7 @@ import net.sixunderscore.oldvisuals.config.RuntimeConfig;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(EquipmentLayerRenderer.class)
@@ -46,5 +48,19 @@ public class EquipmentLayerRendererMixin {
         }
 
         instance.submitModel(model, state, poseStack, renderType, lightCoords, redTintCoords, tintedColor, uvMapping, outlineColor);
+    }
+
+    @ModifyVariable(
+            method = "renderLayers(Lnet/minecraft/client/resources/model/EquipmentClientInfo$LayerType;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lnet/minecraft/world/item/ItemStack;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/resources/Identifier;II)V",
+            at = @At("STORE"),
+            ordinal = 2
+    )
+    private boolean disableGlintWhenHurt(boolean original, @Local(ordinal = 0) Object state) {
+        // This is necessary because minecraft doesn't render red hurt overlay when armor is enchanted for some reason
+        if (RuntimeConfig.enabledRedArmor && state instanceof LivingEntityRenderState living && living.hasRedOverlay) {
+            return false;
+        }
+
+        return original;
     }
 }
