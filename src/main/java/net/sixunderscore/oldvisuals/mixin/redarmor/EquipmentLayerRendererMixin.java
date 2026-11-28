@@ -28,11 +28,7 @@ public class EquipmentLayerRendererMixin {
             )
     )
     private RenderType useOverlayableType(Identifier texture, Operation<RenderType> original) {
-        if (RuntimeConfig.enabledRedArmor) {
-            return RenderTypes.entityCutout(texture);
-        }
-
-        return RenderTypes.armorCutoutNoCull(texture);
+        return RuntimeConfig.enabledRedArmor ? RenderTypes.entityCutout(texture) : original.call(texture);
     }
 
     @Redirect(
