@@ -1,4 +1,4 @@
-package net.sixunderscore.oldvisuals.mixin;
+package net.sixunderscore.oldvisuals.mixin.nocooldown;
 
 import net.minecraft.client.player.FirstPersonHandsAndItems;
 import net.minecraft.client.player.LocalPlayer;

@@ -1,4 +1,4 @@
-package net.sixunderscore.oldvisuals.mixin;
+package net.sixunderscore.oldvisuals.mixin.crosshair;
 
 import net.minecraft.client.CameraType;
 import net.minecraft.client.gui.Hud;
